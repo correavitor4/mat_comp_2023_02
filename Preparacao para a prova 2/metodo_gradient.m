@@ -3,8 +3,8 @@ function metodo_gradient()
   tol = 10e-3;
   x1 = x2 = ((4.5)/(5))*(pi);
 
-  results = do_method(x1, x2, alfa, tol);
-  plot_graph(results);
+  resultsGrad = do_method(x1, x2, alfa, tol);
+  plot_graph(resultsGrad);
 endfunction
 
 function results = do_method(x1, x2, alfa, tol)
@@ -75,6 +75,6 @@ function plot_graph(results)
       zInterval = results(3, i-1 : i);
       plot3(x1Interval, x2Interval, zInterval);
     endif
-    %pause(0.7);
+    pause(0.7);
   endfor
 endfunction
