@@ -1,21 +1,22 @@
-function metodo_newton()
+function metodo_newton_ex_10()
+  alfa = 0.1;
   tol = 10e-3;
-  x1 = x2 = ((4.5)/(5))*(pi);
-  results = do_method(x1, x2, tol);
+  x1 = x2 = -1;
+  results = do_method(x1, x2, tol, alfa);
 
   plot_graph(results);
 endfunction
 
-function results = do_method(x1, x2, tol)
+function results = do_method(x1, x2, tol, alfa)
   xZero = [x1; x2];
   xNew = nan;
   results = zeros(3, 1000);
 
   for i=1 : 1000
-    xNew = xZero - inv(hessiana(xZero)) * get_gradient_vector_result(xZero(1, 1), xZero(2, 1));
+    xNew = xZero - alfa * inv(hessiana(xZero)) * get_gradient_vector_result(xZero(1, 1), xZero(2, 1));
 
     results(1:2, i) = xNew;
-    if abs(functionOfX(xNew)) <= tol
+    if abs(functionOfX(xNew) - functionOfX(xZero)) <= tol
       results(3, i) = functionOfX(xNew);
       printf("Resultado encontrado em x1=%.16f, x2=%.16f e f(x1,x2)=%.16f  em %d iteracoes", xNew(1,1), xNew(2, 1), functionOfX(xNew), i);
 
@@ -69,6 +70,8 @@ function res = hessiana(xValues)
     -2.*exp(c).*(x1 - pi) .* cos(x1) .* (-sin(x2) - 2.*cos(x2).*(x2-pi)),   b1.*(-2.*exp(c).*(x2 - pi).*c1 + a1.*des)
   ];
 
+  a = 1;
+
 endfunction
 
 function plot_graph(results)
@@ -84,7 +87,8 @@ function plot_graph(results)
     x1 = results(1, 1);
     x2 = results(2, 1);
     z = results(3, 1);
-    scatter3(x1, x2, z);
+    scatter3(x1, x2, z, 'SizeData', 240, 'MarkerFaceColor', 'r');
+    hold on;
 
   endfor
 
